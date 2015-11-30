@@ -16,8 +16,10 @@ namespace yuni_mail_viewer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-
+            Form1 main_form = new Form1();
+            LoginForm login_form = new LoginForm();
+            login_form.ShowDialog(main_form);
+            Application.Run(main_form);
             //Form1 main_form = new Form1();
             //Application.Run(main_form);
             //LoginForm login = new LoginForm();
