@@ -30,12 +30,12 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.mail_address_label = new System.Windows.Forms.Label();
             this.mail_list = new System.Windows.Forms.ListBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
             this.subject_box = new System.Windows.Forms.TextBox();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.mail_address_label = new System.Windows.Forms.Label();
+            this.web_browser = new System.Windows.Forms.WebBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -86,6 +86,14 @@
             this.splitContainer2.SplitterDistance = 35;
             this.splitContainer2.TabIndex = 0;
             // 
+            // mail_address_label
+            // 
+            this.mail_address_label.AutoSize = true;
+            this.mail_address_label.Location = new System.Drawing.Point(12, 10);
+            this.mail_address_label.Name = "mail_address_label";
+            this.mail_address_label.Size = new System.Drawing.Size(0, 12);
+            this.mail_address_label.TabIndex = 0;
+            // 
             // mail_list
             // 
             this.mail_list.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -111,7 +119,7 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.webBrowser1);
+            this.splitContainer3.Panel2.Controls.Add(this.web_browser);
             this.splitContainer3.Size = new System.Drawing.Size(412, 361);
             this.splitContainer3.SplitterDistance = 35;
             this.splitContainer3.TabIndex = 0;
@@ -132,22 +140,14 @@
             this.subject_box.Size = new System.Drawing.Size(353, 19);
             this.subject_box.TabIndex = 0;
             // 
-            // webBrowser1
+            // web_browser
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(412, 322);
-            this.webBrowser1.TabIndex = 0;
-            // 
-            // mail_address_label
-            // 
-            this.mail_address_label.AutoSize = true;
-            this.mail_address_label.Location = new System.Drawing.Point(12, 10);
-            this.mail_address_label.Name = "mail_address_label";
-            this.mail_address_label.Size = new System.Drawing.Size(0, 12);
-            this.mail_address_label.TabIndex = 0;
+            this.web_browser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.web_browser.Location = new System.Drawing.Point(0, 0);
+            this.web_browser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.web_browser.Name = "web_browser";
+            this.web_browser.Size = new System.Drawing.Size(412, 322);
+            this.web_browser.TabIndex = 0;
             // 
             // Form1
             // 
@@ -186,7 +186,7 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox subject_box;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.WebBrowser web_browser;
         private System.Windows.Forms.Label mail_address_label;
     }
 }
