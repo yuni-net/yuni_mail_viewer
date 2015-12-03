@@ -17,11 +17,13 @@ namespace yuni_mail_viewer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 main_form = new Form1();
-            LoginForm login_form = new LoginForm();
-            login_form.ShowDialog(main_form);
-            main_form.connect_to_server(
-                login_form.mail_address,
-                login_form.password);
+            //LoginForm login_form = new LoginForm();
+            //login_form.ShowDialog(main_form);
+
+            string mail_address = "nhs30070@nagoya.hal.ac.jp";
+            string password = "d19941005";
+
+            main_form.connect_to_server(mail_address, password);
             Application.Run(main_form);
             main_form.destruct();
         }
