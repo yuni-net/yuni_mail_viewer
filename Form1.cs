@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.IO;
+using System.Collections.Generic;
 
 namespace yuni_mail_viewer
 {
@@ -53,8 +54,6 @@ namespace yuni_mail_viewer
                 mail_list.Items.Add(buffer.ToString());
             }
             mail_list.EndUpdate();
-
-            update_UI_ifneed_async();
         }
 
 
@@ -75,6 +74,26 @@ namespace yuni_mail_viewer
 
 
 
+        private class MyBase64str
+        {
+            private Encoding enc;
+
+            public MyBase64str(string encStr)
+            {
+                enc = Encoding.GetEncoding(encStr);
+            }
+
+            public string Encode(string str)
+            {
+                return Convert.ToBase64String(enc.GetBytes(str));
+            }
+
+            public string Decode(string str)
+            {
+                return enc.GetString(Convert.FromBase64String(str));
+            }
+        }
+
 
 
         private string mail_address;
@@ -84,13 +103,88 @@ namespace yuni_mail_viewer
 
         private string get_content_html(string basic_content)
         {
-            // todo
-            return "";
+            //*
+            List<string> lines = new List<string>();
+
+            System.IO.StringReader reader = new StringReader(basic_content);
+            while(reader.Peek() > -1)
+            {
+                lines.Add(reader.ReadLine());
+            }
+
+            lines.Reverse();
+            List<string> near_lines = new List<string>();
+            foreach (string aline in lines)
+            {
+                if(aline.Contains("Content-Type: text/html;"))
+                {
+                    break;
+                }
+                near_lines.Add(aline);
+            }
+
+            near_lines.Reverse();
+            bool is_64 = false;
+            foreach(string aline in near_lines)
+            {
+                if(aline.Contains("Content-Transfer-Encoding: base64"))
+                {
+                    is_64 = true;
+                    break;
+                }
+            }
+
+            bool should_write = false;
+            List<string> content_with_trash = new List<string>();
+            foreach(string aline in near_lines)
+            {
+                if(aline == "")
+                {
+                    should_write = true;
+                    continue;
+                }
+                if(should_write)
+                {
+                    content_with_trash.Add(aline);
+                }
+            }
+
+            List<string> content = new List<string>();
+            foreach(string aline in content_with_trash)
+            {
+                if(aline.Substring(0,2)=="--")
+                {
+                    break;
+                }
+                content.Add(aline);
+            }
+            //*/
+
+            string html = "<!DOCTYPE html><html><head><meta charset = \"utf-8\" /></head><body>";
+            if (is_64)
+            {
+                MyBase64str base64er = new MyBase64str("UTF-8");
+                foreach (string aline in content)
+                {
+                    html += base64er.Decode(aline);
+                }
+            }
+            else
+            {
+                foreach (string aline in content)
+                {
+                    html += aline;
+                }
+            }
+
+            html += "</body></html>";
+
+            return html;
         }
 
         private void output_file(string file_path, string content_html)
         {
-            StreamWriter writer = new StreamWriter(file_path, false, Encoding.ASCII);
+            StreamWriter writer = new StreamWriter(file_path, false, Encoding.UTF8);
             writer.Write(content_html);
             writer.Close();
         }
@@ -129,6 +223,19 @@ namespace yuni_mail_viewer
         private void Form1_Load(object sender, EventArgs e)
         {
             // Nothing
+        }
+
+        private void mail_list_SelectedValueChanged(object sender, EventArgs e)
+        {
+            int selected_index = mail_list.SelectedIndex;
+            StringBuilder buffer = new StringBuilder(65536);
+            get_content(handle, buffer, selected_index);
+            string content_html = get_content_html(buffer.ToString());
+            string file_path = "data/" + selected_index + ".html";
+            output_file(file_path, content_html);
+
+            subject_box.Text = mail_list.Items[selected_index].ToString();
+            web_browser.Navigate(get_full_path(file_path));
         }
     }
 }

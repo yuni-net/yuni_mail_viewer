@@ -103,6 +103,7 @@
             this.mail_list.Name = "mail_list";
             this.mail_list.Size = new System.Drawing.Size(208, 322);
             this.mail_list.TabIndex = 0;
+            this.mail_list.SelectedValueChanged += new System.EventHandler(this.mail_list_SelectedValueChanged);
             // 
             // splitContainer3
             // 
